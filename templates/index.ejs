@@ -1,17 +1,49 @@
 <%- include('partials/header', { user }) %>
-<div class="container">
-  <div class="hero">
-    <h1>World Cup 2026 Explorer</h1>
-    <p>Explore fixtures, discover teams, and predict match outcomes for the biggest tournament on Earth.</p>
+
+<div class="hero">
+  <div class="trophy-bg">🏆</div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">FIFA World Cup 2026 &bull; USA &bull; Canada &bull; Mexico</p>
+    <h1>WORLD CUP<br><span>EXPLORER</span></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">Live fixtures &bull; Team profiles &bull; Score predictions</p>
     <div class="hero-btns">
-      <a href="/matches/dashboard" class="btn">View Matches</a>
-      <a href="/teams" class="btn">Explore Teams</a>
+      <a href="/matches/dashboard" class="btn btn-primary">View Fixtures</a>
+      <a href="/teams" class="btn btn-secondary">Explore Teams</a>
       <% if (user) { %>
-        <a href="/predictions/new" class="btn">Make a Prediction</a>
+        <a href="/predictions/new" class="btn btn-gold">Make a Prediction</a>
       <% } else { %>
-        <a href="/auth/signup" class="btn">Get Started</a>
+        <a href="/auth/signup" class="btn btn-gold">Get Started</a>
       <% } %>
     </div>
   </div>
 </div>
+
+<div class="container">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:8px;">
+    <div class="card" style="text-align:center;padding:32px 20px;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">📅</div>
+      <h2 style="font-size:1.4rem;margin-bottom:8px;">Match Dashboard</h2>
+      <p style="color:rgba(255,255,255,0.5);font-size:0.88rem;margin-bottom:20px;">Browse the full 2026 fixture list. Filter by matchday and track upcoming matches.</p>
+      <a href="/matches/dashboard" class="btn btn-primary">View Fixtures</a>
+    </div>
+    <div class="card" style="text-align:center;padding:32px 20px;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🌍</div>
+      <h2 style="font-size:1.4rem;margin-bottom:8px;">Team Explorer</h2>
+      <p style="color:rgba(255,255,255,0.5);font-size:0.88rem;margin-bottom:20px;">Discover all 48 qualified nations. View group stage schedules for every team.</p>
+      <a href="/teams" class="btn btn-secondary">Explore Teams</a>
+    </div>
+    <div class="card" style="text-align:center;padding:32px 20px;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🏆</div>
+      <h2 style="font-size:1.4rem;margin-bottom:8px;">Predictions</h2>
+      <p style="color:rgba(255,255,255,0.5);font-size:0.88rem;margin-bottom:20px;">Predict match scores, save your picks, and track how accurate your forecasts are.</p>
+      <% if (user) { %>
+        <a href="/predictions/new" class="btn btn-gold">Make a Prediction</a>
+      <% } else { %>
+        <a href="/auth/signup" class="btn btn-gold">Sign Up to Predict</a>
+      <% } %>
+    </div>
+  </div>
+</div>
+
 <%- include('partials/footer') %>

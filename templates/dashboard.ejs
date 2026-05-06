@@ -1,7 +1,9 @@
 <%- include('partials/header', { user }) %>
 <div class="container">
-  <h1>Match Dashboard</h1>
-  <h3>2026 FIFA World Cup Fixtures</h3>
+  <div class="section-header">
+    <h1>Match Dashboard</h1>
+    <span class="section-tag">WC 2026</span>
+  </div>
 
   <div class="filter-bar">
     <form action="/matches/dashboard" method="GET" style="flex-direction: row; gap: 12px; align-items: center;">
@@ -9,7 +11,7 @@
       <input type="number" id="matchday" name="matchday" value="<%= matchday %>" min="1" placeholder="e.g. 1" />
       <input type="submit" value="Filter" />
       <% if (matchday) { %>
-        <a href="/matches/dashboard" class="btn" style="background-color:#1a3d6b;">Clear</a>
+        <a href="/matches/dashboard" class="btn btn-secondary">Clear</a>
       <% } %>
     </form>
   </div>

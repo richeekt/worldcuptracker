@@ -1,7 +1,9 @@
 <%- include('partials/header', { user }) %>
 <div class="container">
-  <h1>Team Explorer</h1>
-  <h3>All 2026 World Cup Participants</h3>
+  <div class="section-header">
+    <h1>Team Explorer</h1>
+    <span class="section-tag">48 Nations</span>
+  </div>
 
   <% if (teams.length === 0) { %>
     <div class="card">
@@ -18,7 +20,7 @@
           <% } %>
           <div class="team-name"><%= team.name %></div>
           <% if (team.area) { %>
-            <div style="font-size:0.8rem;color:#aac4e0;margin-top:4px;"><%= team.area.name %></div>
+            <div class="team-region"><%= team.area.name %></div>
           <% } %>
         </a>
       <% }) %>
