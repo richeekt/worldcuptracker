@@ -20,7 +20,8 @@ async function apiFetch(endpoint) {
 router.get("/new", isLoggedIn, async (req, res) => {
   try {
     const data = await apiFetch("/competitions/WC/matches?status=SCHEDULED");
-    res.render("predictForm", { matches: data.matches || [], user: req.session.user });
+    const preselect = { matchId: req.query.matchId || "", home: req.query.home || "", away: req.query.away || "" };
+    res.render("predictForm", { matches: data.matches || [], user: req.session.user, preselect });
   } catch (e) {
     console.error(e);
     res.render("error", { message: "Could not load matches for prediction.", user: req.session.user });

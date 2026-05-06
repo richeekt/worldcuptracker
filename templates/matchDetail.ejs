@@ -1,0 +1,53 @@
+<%- include('partials/header', { user }) %>
+<div class="container">
+  <a href="/matches/dashboard" class="back-link">← Back to Dashboard</a>
+
+  <div class="card" style="text-align:center;padding:40px 24px;">
+    <div style="font-size:0.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#c8102e;margin-bottom:16px;">
+      <%= STAGE_LABELS[match.stage] %>
+      <% if (match.group) { %> &bull; Group <%= match.group.replace('GROUP_','') %><% } %>
+      <% if (match.matchday) { %> &bull; Matchday <%= match.matchday %><% } %>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:24px;">
+      <div style="text-align:center;min-width:140px;">
+        <img src="<%= match.homeTeam.crest %>" alt="<%= match.homeTeam.name %>" style="width:80px;height:80px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));" />
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;"><%= match.homeTeam.name %></div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Home</div>
+      </div>
+
+      <div style="text-align:center;">
+        <% if (match.score.fullTime.home !== null) { %>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:3.5rem;letter-spacing:4px;color:#ffd700;line-height:1;">
+            <%= match.score.fullTime.home %> &ndash; <%= match.score.fullTime.away %>
+          </div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:4px;">Full Time</div>
+        <% } else { %>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:4px;color:rgba(255,255,255,0.3);">VS</div>
+          <div style="font-size:0.85rem;color:#ffd700;margin-top:8px;">
+            <%= new Date(match.utcDate).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}) %>
+          </div>
+          <div style="font-size:0.8rem;color:rgba(255,255,255,0.4);">
+            <%= new Date(match.utcDate).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}) %> UTC
+          </div>
+          <span class="status" style="margin-top:8px;display:inline-block;"><%= match.status %></span>
+        <% } %>
+      </div>
+
+      <div style="text-align:center;min-width:140px;">
+        <img src="<%= match.awayTeam.crest %>" alt="<%= match.awayTeam.name %>" style="width:80px;height:80px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));" />
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;"><%= match.awayTeam.name %></div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Away</div>
+      </div>
+    </div>
+
+    <% if (user) { %>
+      <a href="/predictions/new?matchId=<%= match.id %>&home=<%= encodeURIComponent(match.homeTeam.name) %>&away=<%= encodeURIComponent(match.awayTeam.name) %>" class="btn btn-gold">
+        🏆 Predict This Match
+      </a>
+    <% } else { %>
+      <a href="/auth/login" class="btn btn-secondary">Login to Predict</a>
+    <% } %>
+  </div>
+</div>
+<%- include('partials/footer') %>

@@ -17,6 +17,7 @@
                 value="<%= match.id %>"
                 data-home="<%= match.homeTeam.name %>"
                 data-away="<%= match.awayTeam.name %>"
+                <%= String(match.id) === String(preselect.matchId) ? 'selected' : '' %>
               >
                 <%= match.homeTeam.name %> vs <%= match.awayTeam.name %>
                 (<%= new Date(match.utcDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>)

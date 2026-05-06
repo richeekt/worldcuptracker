@@ -485,6 +485,49 @@ select option {
   color: #ffd700;
 }
 
+/* ── Stage sections ── */
+.stage-section {
+  margin-bottom: 36px;
+}
+
+.stage-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 3px;
+  color: #ffffff;
+  padding: 10px 0 8px;
+  border-bottom: 2px solid #c8102e;
+  margin-bottom: 16px;
+}
+
+.matchday-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin: 16px 0 8px;
+}
+
+.match-card-link {
+  text-decoration: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.match-card-link:hover {
+  border-left-color: #ffd700;
+  background: rgba(255,215,0,0.05);
+}
+
+.team-crest-sm {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin: 0 4px;
+}
+
 /* ── Footer ── */
 footer {
   text-align: center;
