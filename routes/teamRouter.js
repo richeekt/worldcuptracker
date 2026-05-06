@@ -30,8 +30,12 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const data = await apiFetch(`/teams/${req.params.id}`);
-    res.render("teamDetail", { team: data, squad: data.squad || [], user: req.session.user || null });
+    const [teamData, matchData] = await Promise.all([
+      apiFetch(`/teams/${req.params.id}`),
+      apiFetch(`/teams/${req.params.id}/matches?competitions=WC`),
+    ]);
+    const matches = (matchData.matches || []).sort((a, b) => new Date(a.utcDate) - new Date(b.utcDate));
+    res.render("teamDetail", { team: teamData, matches, user: req.session.user || null });
   } catch (e) {
     console.error(e);
     res.render("error", { message: "Could not load team details.", user: req.session.user || null });

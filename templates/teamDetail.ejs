@@ -12,25 +12,38 @@
       <% if (team.founded) { %><p style="color:#aac4e0;font-size:0.9rem;">Founded: <%= team.founded %></p><% } %>
       <% if (team.venue) { %><p style="color:#aac4e0;font-size:0.9rem;">Venue: <%= team.venue %></p><% } %>
       <% if (team.coach && team.coach.name) { %><p style="color:#aac4e0;font-size:0.9rem;">Coach: <%= team.coach.name %></p><% } %>
+      <% if (team.clubColors) { %><p style="color:#aac4e0;font-size:0.9rem;">Colors: <%= team.clubColors %></p><% } %>
+      <% if (team.website) { %><p style="font-size:0.9rem;"><a href="<%= team.website %>" target="_blank" style="color:#ffd700;">Official Website ↗</a></p><% } %>
     </div>
   </div>
 
-  <% if (squad.length > 0) { %>
-    <h2 style="margin-top:32px;">Squad</h2>
-    <div class="player-list">
-      <% squad.forEach(player => { %>
-        <div class="player-item">
-          <div><%= player.name %></div>
-          <div class="position"><%= player.position || 'N/A' %> &bull; #<%= player.shirtNumber || '?' %></div>
-          <% if (player.nationality) { %>
-            <div class="position"><%= player.nationality %></div>
-          <% } %>
-        </div>
-      <% }) %>
+  <h2 style="margin-top:32px;">2026 World Cup Schedule</h2>
+  <% if (matches.length === 0) { %>
+    <div class="card">
+      <p style="color:#aac4e0;">No World Cup matches found for this team.</p>
     </div>
   <% } else { %>
-    <div class="card" style="margin-top:24px;">
-      <p>Squad details not available yet.</p>
+    <div class="match-grid">
+      <% matches.forEach(match => { %>
+        <div class="match-card">
+          <div>
+            <div class="teams">
+              <%= match.homeTeam.name %> <span style="color:#aac4e0;">vs</span> <%= match.awayTeam.name %>
+            </div>
+            <div class="meta"><%= match.stage.replace(/_/g, ' ') %> &bull; Group <%= match.group ? match.group.replace('GROUP_','') : '' %></div>
+          </div>
+          <div style="text-align:right;">
+            <div class="meta"><%= new Date(match.utcDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></div>
+            <% if (match.score.fullTime.home !== null) { %>
+              <div style="font-family:'Oswald',sans-serif;color:#ffd700;font-size:1.1rem;">
+                <%= match.score.fullTime.home %> &ndash; <%= match.score.fullTime.away %>
+              </div>
+            <% } else { %>
+              <span class="status"><%= match.status %></span>
+            <% } %>
+          </div>
+        </div>
+      <% }) %>
     </div>
   <% } %>
 </div>
