@@ -61,5 +61,11 @@
     document.getElementById("homeLabel").textContent = home ? home + " Score" : "Home Score";
     document.getElementById("awayLabel").textContent = away ? away + " Score" : "Away Score";
   }
+
+  // Pre-fill hidden fields if a match is already selected on load
+  window.addEventListener("DOMContentLoaded", () => {
+    const select = document.getElementById("matchSelect");
+    if (select && select.value) updateMatchFields(select);
+  });
 </script>
 <%- include('partials/footer') %>
