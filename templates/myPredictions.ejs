@@ -1,0 +1,41 @@
+<%- include('partials/header', { user }) %>
+<div class="container">
+  <h1>My Predictions</h1>
+  <h3>Welcome, <%= user.username %></h3>
+
+  <% if (predictions.length === 0) { %>
+    <div class="card">
+      <p>You haven't made any predictions yet.</p>
+      <a href="/predictions/new" class="btn" style="margin-top:16px;display:inline-block;">Make Your First Prediction</a>
+    </div>
+  <% } else { %>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <table class="predictions-table">
+        <thead>
+          <tr>
+            <th>Match</th>
+            <th>Predicted Score</th>
+            <th>Notes</th>
+            <th>Submitted</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% predictions.forEach(p => { %>
+            <tr>
+              <td><strong><%= p.homeTeam %></strong> vs <strong><%= p.awayTeam %></strong></td>
+              <td style="font-family:'Oswald',sans-serif;font-size:1.1rem;color:#ffd700;">
+                <%= p.predictedHomeScore %> &ndash; <%= p.predictedAwayScore %>
+              </td>
+              <td style="color:#aac4e0;font-size:0.85rem;"><%= p.notes || '—' %></td>
+              <td style="color:#aac4e0;font-size:0.85rem;"><%= new Date(p.submittedAt).toLocaleDateString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:16px;">
+      <a href="/predictions/new" class="btn">Make Another Prediction</a>
+    </div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

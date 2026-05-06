@@ -1,0 +1,17 @@
+<%- include('partials/header', { user }) %>
+<div class="container">
+  <div class="hero">
+    <h1>World Cup 2026 Explorer</h1>
+    <p>Explore fixtures, discover teams, and predict match outcomes for the biggest tournament on Earth.</p>
+    <div class="hero-btns">
+      <a href="/matches/dashboard" class="btn">View Matches</a>
+      <a href="/teams" class="btn">Explore Teams</a>
+      <% if (user) { %>
+        <a href="/predictions/new" class="btn">Make a Prediction</a>
+      <% } else { %>
+        <a href="/auth/signup" class="btn">Get Started</a>
+      <% } %>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>

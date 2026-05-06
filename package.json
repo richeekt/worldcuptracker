@@ -1,0 +1,18 @@
+{
+  "name": "worldcup2026",
+  "version": "1.0.0",
+  "description": "World Cup 2026 Team Explorer — CMSC335 Final Project",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "mongoose": "^8.13.2"
+  }
+}

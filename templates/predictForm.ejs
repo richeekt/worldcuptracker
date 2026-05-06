@@ -1,0 +1,64 @@
+<%- include('partials/header', { user }) %>
+<div class="container">
+  <div class="card" style="max-width:600px;margin:0 auto;">
+    <h1>Make a Prediction</h1>
+    <h3>Select a match and predict the final score</h3>
+
+    <% if (matches.length === 0) { %>
+      <p class="error-msg">No upcoming matches available to predict right now. Check back soon!</p>
+    <% } else { %>
+      <form action="/predictions/new" method="POST">
+        <div>
+          <label for="matchSelect">Match</label>
+          <select id="matchSelect" name="matchId" required onchange="updateMatchFields(this)">
+            <option value="">-- Select a match --</option>
+            <% matches.forEach(match => { %>
+              <option
+                value="<%= match.id %>"
+                data-home="<%= match.homeTeam.name %>"
+                data-away="<%= match.awayTeam.name %>"
+              >
+                <%= match.homeTeam.name %> vs <%= match.awayTeam.name %>
+                (<%= new Date(match.utcDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>)
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <input type="hidden" id="homeTeam" name="homeTeam" value="" />
+        <input type="hidden" id="awayTeam" name="awayTeam" value="" />
+
+        <div style="display:flex;gap:16px;flex-wrap:wrap;">
+          <div style="flex:1;">
+            <label for="predictedHomeScore" id="homeLabel">Home Score</label>
+            <input type="number" id="predictedHomeScore" name="predictedHomeScore" min="0" max="20" value="0" required />
+          </div>
+          <div style="flex:1;">
+            <label for="predictedAwayScore" id="awayLabel">Away Score</label>
+            <input type="number" id="predictedAwayScore" name="predictedAwayScore" min="0" max="20" value="0" required />
+          </div>
+        </div>
+
+        <div>
+          <label for="notes">Notes (optional)</label>
+          <textarea id="notes" name="notes" rows="3" maxlength="300" placeholder="Any thoughts on this match..."></textarea>
+        </div>
+
+        <input type="submit" value="Submit Prediction" />
+      </form>
+    <% } %>
+  </div>
+</div>
+
+<script>
+  function updateMatchFields(select) {
+    const option = select.options[select.selectedIndex];
+    const home = option.dataset.home || "";
+    const away = option.dataset.away || "";
+    document.getElementById("homeTeam").value = home;
+    document.getElementById("awayTeam").value = away;
+    document.getElementById("homeLabel").textContent = home ? home + " Score" : "Home Score";
+    document.getElementById("awayLabel").textContent = away ? away + " Score" : "Away Score";
+  }
+</script>
+<%- include('partials/footer') %>

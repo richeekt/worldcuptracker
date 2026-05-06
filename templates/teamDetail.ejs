@@ -1,0 +1,37 @@
+<%- include('partials/header', { user }) %>
+<div class="container">
+  <a href="/teams" class="back-link">← Back to Teams</a>
+
+  <div class="card" style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+    <% if (team.crest) { %>
+      <img src="<%= team.crest %>" alt="<%= team.name %>" style="width:100px;height:100px;object-fit:contain;" />
+    <% } %>
+    <div>
+      <h1><%= team.name %></h1>
+      <% if (team.area) { %><p style="color:#aac4e0;"><%= team.area.name %></p><% } %>
+      <% if (team.founded) { %><p style="color:#aac4e0;font-size:0.9rem;">Founded: <%= team.founded %></p><% } %>
+      <% if (team.venue) { %><p style="color:#aac4e0;font-size:0.9rem;">Venue: <%= team.venue %></p><% } %>
+      <% if (team.coach && team.coach.name) { %><p style="color:#aac4e0;font-size:0.9rem;">Coach: <%= team.coach.name %></p><% } %>
+    </div>
+  </div>
+
+  <% if (squad.length > 0) { %>
+    <h2 style="margin-top:32px;">Squad</h2>
+    <div class="player-list">
+      <% squad.forEach(player => { %>
+        <div class="player-item">
+          <div><%= player.name %></div>
+          <div class="position"><%= player.position || 'N/A' %> &bull; #<%= player.shirtNumber || '?' %></div>
+          <% if (player.nationality) { %>
+            <div class="position"><%= player.nationality %></div>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="card" style="margin-top:24px;">
+      <p>Squad details not available yet.</p>
+    </div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

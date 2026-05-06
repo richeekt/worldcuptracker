@@ -1,0 +1,24 @@
+<%- include('partials/header', { user: null }) %>
+<div class="container">
+  <div class="card" style="max-width: 480px; margin: 0 auto;">
+    <h1>Login</h1>
+    <% if (error) { %>
+      <p class="error-msg"><%= error %></p>
+    <% } %>
+    <form action="/auth/login" method="POST">
+      <div>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autocomplete="username" />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password" />
+      </div>
+      <input type="submit" value="Login" />
+    </form>
+    <p style="margin-top: 16px; color: #aac4e0; font-size: 0.9rem;">
+      Don't have an account? <a href="/auth/signup" style="color: #ffd700;">Sign up</a>
+    </p>
+  </div>
+</div>
+<%- include('partials/footer') %>

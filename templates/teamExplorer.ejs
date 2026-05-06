@@ -1,0 +1,28 @@
+<%- include('partials/header', { user }) %>
+<div class="container">
+  <h1>Team Explorer</h1>
+  <h3>All 2026 World Cup Participants</h3>
+
+  <% if (teams.length === 0) { %>
+    <div class="card">
+      <p>No teams found. The full team list may not be available yet.</p>
+    </div>
+  <% } else { %>
+    <div class="team-grid">
+      <% teams.forEach(team => { %>
+        <a href="/teams/<%= team.id %>" class="team-card">
+          <% if (team.crest) { %>
+            <img src="<%= team.crest %>" alt="<%= team.name %> crest" />
+          <% } else { %>
+            <div style="width:64px;height:64px;background:#2a5080;border-radius:50%;margin:0 auto 10px;"></div>
+          <% } %>
+          <div class="team-name"><%= team.name %></div>
+          <% if (team.area) { %>
+            <div style="font-size:0.8rem;color:#aac4e0;margin-top:4px;"><%= team.area.name %></div>
+          <% } %>
+        </a>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

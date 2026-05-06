@@ -1,0 +1,41 @@
+<%- include('partials/header', { user }) %>
+<div class="container">
+  <h1>Match Dashboard</h1>
+  <h3>2026 FIFA World Cup Fixtures</h3>
+
+  <div class="filter-bar">
+    <form action="/matches/dashboard" method="GET" style="flex-direction: row; gap: 12px; align-items: center;">
+      <label for="matchday" style="margin: 0;">Matchday:</label>
+      <input type="number" id="matchday" name="matchday" value="<%= matchday %>" min="1" placeholder="e.g. 1" />
+      <input type="submit" value="Filter" />
+      <% if (matchday) { %>
+        <a href="/matches/dashboard" class="btn" style="background-color:#1a3d6b;">Clear</a>
+      <% } %>
+    </form>
+  </div>
+
+  <% if (matches.length === 0) { %>
+    <div class="card">
+      <p>No matches found. Try a different matchday filter.</p>
+    </div>
+  <% } else { %>
+    <div class="match-grid">
+      <% matches.forEach(match => { %>
+        <div class="match-card">
+          <div>
+            <div class="teams">
+              <%= match.homeTeam.name %> <span style="color:#aac4e0;">vs</span> <%= match.awayTeam.name %>
+            </div>
+            <div class="meta">Matchday <%= match.matchday %></div>
+          </div>
+          <div style="text-align:right;">
+            <div class="meta"><%= new Date(match.utcDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></div>
+            <div class="meta"><%= new Date(match.utcDate).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) %> UTC</div>
+            <span class="status"><%= match.status %></span>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>
