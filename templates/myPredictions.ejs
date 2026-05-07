@@ -17,17 +17,19 @@
             <th>Predicted Score</th>
             <th>Notes</th>
             <th>Submitted</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <% predictions.forEach(p => { %>
             <tr>
-              <td><strong><%= p.homeTeam %></strong> vs <strong><%= p.awayTeam %></strong></td>
-              <td style="font-family:'Oswald',sans-serif;font-size:1.1rem;color:#ffd700;">
+              <td><a href="/matches/<%= p.matchId %>" style="color:#fff;text-decoration:none;font-weight:600;"><%= p.homeTeam %> vs <%= p.awayTeam %></a></td>
+              <td style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:#ffd700;">
                 <%= p.predictedHomeScore %> &ndash; <%= p.predictedAwayScore %>
               </td>
-              <td style="color:#aac4e0;font-size:0.85rem;"><%= p.notes || '—' %></td>
-              <td style="color:#aac4e0;font-size:0.85rem;"><%= new Date(p.submittedAt).toLocaleDateString() %></td>
+              <td style="color:rgba(255,255,255,0.5);font-size:0.85rem;"><%= p.notes || '—' %></td>
+              <td style="color:rgba(255,255,255,0.4);font-size:0.85rem;"><%= new Date(p.submittedAt).toLocaleDateString() %></td>
+              <td><a href="/predictions/<%= p._id %>/edit" class="btn btn-secondary" style="padding:5px 14px;font-size:0.75rem;">Edit</a></td>
             </tr>
           <% }) %>
         </tbody>

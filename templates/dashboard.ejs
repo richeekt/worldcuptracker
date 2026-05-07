@@ -17,11 +17,11 @@
               <a href="/matches/<%= match.id %>" class="match-card match-card-link">
                 <div>
                   <div class="teams">
-                    <img src="<%= match.homeTeam.crest %>" class="team-crest-sm" alt="" />
-                    <%= match.homeTeam.name %>
+                    <% if (match.homeTeam.crest) { %><img src="<%= match.homeTeam.crest %>" class="team-crest-sm" alt="" /><% } %>
+                    <%= match.homeTeam.name || 'TBD' %>
                     <span style="color:rgba(255,255,255,0.3);margin:0 8px;">vs</span>
-                    <%= match.awayTeam.name %>
-                    <img src="<%= match.awayTeam.crest %>" class="team-crest-sm" alt="" />
+                    <%= match.awayTeam.name || 'TBD' %>
+                    <% if (match.awayTeam.crest) { %><img src="<%= match.awayTeam.crest %>" class="team-crest-sm" alt="" /><% } %>
                   </div>
                   <% if (match.group) { %>
                     <div class="meta">Group <%= match.group.replace('GROUP_','') %></div>
@@ -34,7 +34,15 @@
                     </div>
                   <% } else { %>
                     <div class="meta"><%= new Date(match.utcDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) %></div>
-                    <span class="status"><%= match.status %></span>
+                    <span class="status"><%=
+                      match.status === 'TIMED' || match.status === 'SCHEDULED' ? 'Upcoming' :
+                      match.status === 'IN_PLAY' ? 'Live' :
+                      match.status === 'PAUSED' ? 'Half Time' :
+                      match.status === 'FINISHED' ? 'Full Time' :
+                      match.status === 'POSTPONED' ? 'Postponed' :
+                      match.status === 'SUSPENDED' ? 'Suspended' :
+                      match.status === 'CANCELLED' ? 'Cancelled' : match.status
+                    %></span>
                   <% } %>
                 </div>
               </a>

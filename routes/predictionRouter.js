@@ -48,6 +48,33 @@ router.post("/new", isLoggedIn, async (req, res) => {
   }
 });
 
+router.get("/:id/edit", isLoggedIn, async (req, res) => {
+  try {
+    const prediction = await Prediction.findOne({ _id: req.params.id, userId: req.session.user._id });
+    if (!prediction) return res.render("error", { message: "Prediction not found.", user: req.session.user });
+    res.render("editPrediction", { prediction, user: req.session.user });
+  } catch (e) {
+    console.error(e);
+    res.render("error", { message: "Could not load prediction.", user: req.session.user });
+  }
+});
+
+router.post("/:id/edit", isLoggedIn, async (req, res) => {
+  try {
+    const { predictedHomeScore, predictedAwayScore, notes } = req.body;
+    const prediction = await Prediction.findOneAndUpdate(
+      { _id: req.params.id, userId: req.session.user._id },
+      { predictedHomeScore: Number(predictedHomeScore), predictedAwayScore: Number(predictedAwayScore), notes: notes || "" },
+      { new: true }
+    );
+    if (!prediction) return res.render("error", { message: "Prediction not found.", user: req.session.user });
+    res.redirect(`/matches/${prediction.matchId}`);
+  } catch (e) {
+    console.error(e);
+    res.render("error", { message: "Could not update your prediction.", user: req.session.user });
+  }
+});
+
 router.get("/mine", isLoggedIn, async (req, res) => {
   try {
     const predictions = await Prediction.find({ userId: req.session.user._id }).sort({ submittedAt: -1 });

@@ -35,8 +35,23 @@ app.use("/matches", matchRouter);
 app.use("/teams", teamRouter);
 app.use("/predictions", predictionRouter);
 
-app.get("/", (req, res) => {
-  res.render("index", { user: req.session.user || null });
+let homeTeamsCache = { crests: [], fetchedAt: 0 };
+
+app.get("/", async (req, res) => {
+  try {
+    const now = Date.now();
+    if (!homeTeamsCache.crests.length || now - homeTeamsCache.fetchedAt > 300000) {
+      const r = await fetch("https://api.football-data.org/v4/competitions/WC/teams", {
+        headers: { "X-Auth-Token": process.env.FOOTBALL_API_KEY },
+      });
+      const data = await r.json();
+      homeTeamsCache.crests = (data.teams || []).filter(t => t.crest).map(t => ({ name: t.name, crest: t.crest }));
+      homeTeamsCache.fetchedAt = now;
+    }
+    res.render("index", { user: req.session.user || null, crests: homeTeamsCache.crests });
+  } catch (e) {
+    res.render("index", { user: req.session.user || null, crests: [] });
+  }
 });
 
 app.listen(port, () => {

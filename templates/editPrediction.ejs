@@ -1,0 +1,29 @@
+<%- include('partials/header', { user }) %>
+<div class="container">
+  <a href="/matches/<%= prediction.matchId %>" class="back-link">← Back to Match</a>
+  <div class="card" style="max-width:520px;margin:0 auto;">
+    <h1>Edit Prediction</h1>
+    <div style="margin:16px 0 24px;padding:14px 18px;background:rgba(255,255,255,0.04);border-radius:8px;border-left:3px solid #c8102e;">
+      <div style="font-family:'Oswald',sans-serif;font-size:1.05rem;"><%= prediction.homeTeam %> vs <%= prediction.awayTeam %></div>
+    </div>
+
+    <form action="/predictions/<%= prediction._id %>/edit" method="POST">
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <div style="flex:1;">
+          <label for="predictedHomeScore"><%= prediction.homeTeam %> Score</label>
+          <input type="number" id="predictedHomeScore" name="predictedHomeScore" min="0" max="20" value="<%= prediction.predictedHomeScore %>" required />
+        </div>
+        <div style="flex:1;">
+          <label for="predictedAwayScore"><%= prediction.awayTeam %> Score</label>
+          <input type="number" id="predictedAwayScore" name="predictedAwayScore" min="0" max="20" value="<%= prediction.predictedAwayScore %>" required />
+        </div>
+      </div>
+      <div>
+        <label for="notes">Notes (optional)</label>
+        <textarea id="notes" name="notes" rows="3" maxlength="300"><%= prediction.notes %></textarea>
+      </div>
+      <input type="submit" value="Save Changes" />
+    </form>
+  </div>
+</div>
+<%- include('partials/footer') %>

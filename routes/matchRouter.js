@@ -1,4 +1,5 @@
 const express = require("express");
+const Prediction = require("../models/Prediction");
 
 const router = express.Router();
 const API_BASE = "https://api.football-data.org/v4";
@@ -64,7 +65,8 @@ router.get("/:id", async (req, res) => {
     const matches = await getAllMatches();
     const match = matches.find(m => m.id === Number(req.params.id));
     if (!match) return res.render("error", { message: "Match not found.", user: req.session.user || null });
-    res.render("matchDetail", { match, STAGE_LABELS, user: req.session.user || null });
+    const predictions = await Prediction.find({ matchId: match.id }).sort({ submittedAt: -1 });
+    res.render("matchDetail", { match, STAGE_LABELS, predictions, user: req.session.user || null });
   } catch (e) {
     console.error(e);
     res.render("error", { message: "Could not load match details.", user: req.session.user || null });

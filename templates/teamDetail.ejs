@@ -17,7 +17,55 @@
     </div>
   </div>
 
-  <h2 style="margin-top:32px;">2026 World Cup Schedule</h2>
+  <% if (rosterData && rosterData.athletes.length > 0) { %>
+  <div style="margin-top:36px;">
+    <div class="section-header">
+      <h2>Squad</h2>
+      <span class="section-tag"><%= rosterData.athletes.length %> Players</span>
+    </div>
+
+    <%
+      const grouped = {};
+      rosterData.athletes.forEach(p => {
+        const pos = p.position ? p.position.displayName : 'Unknown';
+        if (!grouped[pos]) grouped[pos] = [];
+        grouped[pos].push(p);
+      });
+      const posOrder = ['Goalkeeper','Defender','Midfielder','Forward','Unknown'];
+      const sortedPos = Object.keys(grouped).sort((a,b) => {
+        const ai = posOrder.indexOf(a); const bi = posOrder.indexOf(b);
+        return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+      });
+    %>
+
+    <% sortedPos.forEach(pos => { %>
+      <div class="matchday-label" style="margin-top:20px;"><%= pos %>s</div>
+      <div class="player-list">
+        <% grouped[pos].forEach(p => { %>
+          <div class="player-item" style="display:flex;align-items:center;gap:12px;">
+            <% if (p.headshot && p.headshot.href) { %>
+              <img src="<%= p.headshot.href %>" alt="<%= p.displayName %>" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;" />
+            <% } else { %>
+              <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">⚽</div>
+            <% } %>
+            <div>
+              <div style="font-weight:600;font-size:0.9rem;"><%= p.displayName %></div>
+              <div class="position">
+                <% if (p.jersey) { %>#<%= p.jersey %><% } %>
+                <% if (p.age) { %> &bull; Age <%= p.age %><% } %>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% }) %>
+  </div>
+  <% } %>
+
+  <div style="margin-top:36px;">
+  <div class="section-header">
+  <h2>2026 World Cup Schedule</h2>
+  </div>
   <% if (matches.length === 0) { %>
     <div class="card">
       <p style="color:#aac4e0;">No World Cup matches found for this team.</p>
@@ -25,26 +73,27 @@
   <% } else { %>
     <div class="match-grid">
       <% matches.forEach(match => { %>
-        <div class="match-card">
+        <a href="/matches/<%= match.id %>" class="match-card match-card-link">
           <div>
             <div class="teams">
-              <%= match.homeTeam.name %> <span style="color:#aac4e0;">vs</span> <%= match.awayTeam.name %>
+              <%= match.homeTeam.name || 'TBD' %> <span style="color:rgba(255,255,255,0.3);">vs</span> <%= match.awayTeam.name || 'TBD' %>
             </div>
-            <div class="meta"><%= match.stage.replace(/_/g, ' ') %> &bull; Group <%= match.group ? match.group.replace('GROUP_','') : '' %></div>
+            <div class="meta"><%= match.stage.replace(/_/g, ' ') %><% if (match.group) { %> &bull; Group <%= match.group.replace('GROUP_','') %><% } %></div>
           </div>
           <div style="text-align:right;">
             <div class="meta"><%= new Date(match.utcDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></div>
             <% if (match.score.fullTime.home !== null) { %>
-              <div style="font-family:'Oswald',sans-serif;color:#ffd700;font-size:1.1rem;">
+              <div style="font-family:'Bebas Neue',sans-serif;color:#c9a84c;font-size:1.2rem;letter-spacing:2px;">
                 <%= match.score.fullTime.home %> &ndash; <%= match.score.fullTime.away %>
               </div>
             <% } else { %>
-              <span class="status"><%= match.status %></span>
+              <span class="status">Upcoming</span>
             <% } %>
           </div>
-        </div>
+        </a>
       <% }) %>
     </div>
   <% } %>
+  </div>
 </div>
 <%- include('partials/footer') %>

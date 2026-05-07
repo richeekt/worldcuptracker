@@ -10,11 +10,17 @@
     </div>
 
     <div style="display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:24px;">
-      <div style="text-align:center;min-width:140px;">
-        <img src="<%= match.homeTeam.crest %>" alt="<%= match.homeTeam.name %>" style="width:80px;height:80px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));" />
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;"><%= match.homeTeam.name %></div>
+      <% if (match.homeTeam.id) { %><a href="/teams/<%= match.homeTeam.id %>" style="text-decoration:none;color:inherit;"><% } %>
+      <div style="text-align:center;min-width:140px;cursor:<%= match.homeTeam.id ? 'pointer' : 'default' %>;">
+        <% if (match.homeTeam.crest) { %>
+          <img src="<%= match.homeTeam.crest %>" alt="" style="width:80px;height:80px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" />
+        <% } else { %>
+          <div style="font-size:4rem;margin-bottom:10px;">⚽</div>
+        <% } %>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;"><%= match.homeTeam.name || 'TBD' %></div>
         <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Home</div>
       </div>
+      <% if (match.homeTeam.id) { %></a><% } %>
 
       <div style="text-align:center;">
         <% if (match.score.fullTime.home !== null) { %>
@@ -30,15 +36,29 @@
           <div style="font-size:0.8rem;color:rgba(255,255,255,0.4);">
             <%= new Date(match.utcDate).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}) %> UTC
           </div>
-          <span class="status" style="margin-top:8px;display:inline-block;"><%= match.status %></span>
+          <span class="status" style="margin-top:8px;display:inline-block;"><%=
+            match.status === 'TIMED' || match.status === 'SCHEDULED' ? 'Upcoming' :
+            match.status === 'IN_PLAY' ? 'Live' :
+            match.status === 'PAUSED' ? 'Half Time' :
+            match.status === 'FINISHED' ? 'Full Time' :
+            match.status === 'POSTPONED' ? 'Postponed' :
+            match.status === 'SUSPENDED' ? 'Suspended' :
+            match.status === 'CANCELLED' ? 'Cancelled' : match.status
+          %></span>
         <% } %>
       </div>
 
-      <div style="text-align:center;min-width:140px;">
-        <img src="<%= match.awayTeam.crest %>" alt="<%= match.awayTeam.name %>" style="width:80px;height:80px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));" />
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;"><%= match.awayTeam.name %></div>
+      <% if (match.awayTeam.id) { %><a href="/teams/<%= match.awayTeam.id %>" style="text-decoration:none;color:inherit;"><% } %>
+      <div style="text-align:center;min-width:140px;cursor:<%= match.awayTeam.id ? 'pointer' : 'default' %>;">
+        <% if (match.awayTeam.crest) { %>
+          <img src="<%= match.awayTeam.crest %>" alt="" style="width:80px;height:80px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" />
+        <% } else { %>
+          <div style="font-size:4rem;margin-bottom:10px;">⚽</div>
+        <% } %>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;"><%= match.awayTeam.name || 'TBD' %></div>
         <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Away</div>
       </div>
+      <% if (match.awayTeam.id) { %></a><% } %>
     </div>
 
     <% if (user) { %>
@@ -47,6 +67,53 @@
       </a>
     <% } else { %>
       <a href="/auth/login" class="btn btn-secondary">Login to Predict</a>
+    <% } %>
+  </div>
+
+  <div style="margin-top:24px;">
+    <div class="section-header">
+      <h2>Community Predictions</h2>
+      <span class="section-tag"><%= predictions.length %> pick<%= predictions.length !== 1 ? 's' : '' %></span>
+    </div>
+
+    <% if (predictions.length === 0) { %>
+      <div class="card" style="text-align:center;color:rgba(255,255,255,0.4);">
+        No predictions yet. Be the first to predict this match!
+      </div>
+    <% } else { %>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <table class="predictions-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Predicted Score</th>
+              <th>Notes</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% predictions.forEach(p => { %>
+              <tr>
+                <td style="font-weight:600;">
+                  <%= p.username %>
+                  <% if (user && String(p.userId) === String(user._id)) { %>
+                    <span style="font-size:0.7rem;background:rgba(255,215,0,0.15);color:#ffd700;border:1px solid rgba(255,215,0,0.3);padding:1px 7px;border-radius:10px;margin-left:6px;">you</span>
+                  <% } %>
+                </td>
+                <td style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:#ffd700;">
+                  <%= p.predictedHomeScore %> &ndash; <%= p.predictedAwayScore %>
+                </td>
+                <td style="color:rgba(255,255,255,0.5);font-size:0.85rem;"><%= p.notes || '—' %></td>
+                <td>
+                  <% if (user && String(p.userId) === String(user._id)) { %>
+                    <a href="/predictions/<%= p._id %>/edit" class="btn btn-secondary" style="padding:5px 14px;font-size:0.75rem;">Edit</a>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
     <% } %>
   </div>
 </div>

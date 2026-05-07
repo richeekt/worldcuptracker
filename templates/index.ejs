@@ -1,42 +1,56 @@
 <%- include('partials/header', { user }) %>
 
 <div class="hero">
-  <div class="trophy-bg">🏆</div>
   <div class="hero-inner">
-    <p class="hero-eyebrow">FIFA World Cup 2026 &bull; USA &bull; Canada &bull; Mexico</p>
-    <h1>WORLD CUP<br><span>EXPLORER</span></h1>
-    <div class="hero-divider"></div>
-    <p class="hero-sub">Live fixtures &bull; Team profiles &bull; Score predictions</p>
-    <div class="hero-btns">
-      <a href="/matches/dashboard" class="btn btn-primary">View Fixtures</a>
-      <a href="/teams" class="btn btn-secondary">Explore Teams</a>
-      <% if (user) { %>
-        <a href="/predictions/new" class="btn btn-gold">Make a Prediction</a>
-      <% } else { %>
-        <a href="/auth/signup" class="btn btn-gold">Get Started</a>
-      <% } %>
+    <div class="hero-text">
+      <p class="hero-eyebrow">FIFA World Cup 2026 &bull; USA &bull; Canada &bull; Mexico</p>
+      <h1>WORLD<br><span>CUP</span></h1>
+      <div class="hero-divider"></div>
+      <p class="hero-sub">Fixtures &bull; Teams &bull; Predictions</p>
+      <div class="hero-btns">
+        <a href="/matches/dashboard" class="btn btn-primary">View Fixtures</a>
+        <a href="/teams" class="btn btn-secondary">Explore Teams</a>
+        <% if (user) { %>
+          <a href="/predictions/new" class="btn btn-gold">Make a Prediction</a>
+        <% } else { %>
+          <a href="/auth/signup" class="btn btn-gold">Get Started</a>
+        <% } %>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://crests.football-data.org/wm26.png" alt="FIFA World Cup 2026" />
     </div>
   </div>
 </div>
 
+<% if (crests.length > 0) { %>
+<div class="crest-strip">
+  <div class="crest-strip-inner">
+    <% crests.forEach(t => { %>
+      <img src="<%= t.crest %>" alt="<%= t.name %>" title="<%= t.name %>" />
+    <% }) %>
+  </div>
+</div>
+<% } %>
+
 <div class="container">
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:8px;">
-    <div class="card" style="text-align:center;padding:32px 20px;">
-      <div style="font-size:2.5rem;margin-bottom:12px;">📅</div>
-      <h2 style="font-size:1.4rem;margin-bottom:8px;">Match Dashboard</h2>
-      <p style="color:rgba(255,255,255,0.5);font-size:0.88rem;margin-bottom:20px;">Browse the full 2026 fixture list. Filter by matchday and track upcoming matches.</p>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📅</div>
+      <h2>Match Dashboard</h2>
+      <p>Browse all 104 fixtures across every stage. Filter by matchday and click any match for details and community predictions.</p>
       <a href="/matches/dashboard" class="btn btn-primary">View Fixtures</a>
     </div>
-    <div class="card" style="text-align:center;padding:32px 20px;">
-      <div style="font-size:2.5rem;margin-bottom:12px;">🌍</div>
-      <h2 style="font-size:1.4rem;margin-bottom:8px;">Team Explorer</h2>
-      <p style="color:rgba(255,255,255,0.5);font-size:0.88rem;margin-bottom:20px;">Discover all 48 qualified nations. View group stage schedules for every team.</p>
+    <div class="feature-card">
+      <div class="feature-icon">🌍</div>
+      <h2>Team Explorer</h2>
+      <p>Discover all 48 qualified nations and view their complete group stage schedules for 2026.</p>
       <a href="/teams" class="btn btn-secondary">Explore Teams</a>
     </div>
-    <div class="card" style="text-align:center;padding:32px 20px;">
-      <div style="font-size:2.5rem;margin-bottom:12px;">🏆</div>
-      <h2 style="font-size:1.4rem;margin-bottom:8px;">Predictions</h2>
-      <p style="color:rgba(255,255,255,0.5);font-size:0.88rem;margin-bottom:20px;">Predict match scores, save your picks, and track how accurate your forecasts are.</p>
+    <div class="feature-card">
+      <div class="feature-icon">🏆</div>
+      <h2>Predictions</h2>
+      <p>Predict match scores, save your picks, and see how your forecasts stack up against the community.</p>
       <% if (user) { %>
         <a href="/predictions/new" class="btn btn-gold">Make a Prediction</a>
       <% } else { %>
