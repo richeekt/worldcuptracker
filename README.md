@@ -2,7 +2,7 @@
 
 **Submitted by:** Richeek Thakur (rthakur6)
 
-**Group Members:** Richeek Thakur (rthakur6), Nico Mannarelli (NICOS_DIRECTORY_ID)
+**Group Members:** Richeek Thakur (rthakur6), Nico Mannarelli (nicom)
 
 **App Description:** A Node.js/Express/MongoDB app to explore 2026 FIFA World Cup fixtures and teams, and make score predictions stored in MongoDB.
 
@@ -10,7 +10,7 @@
 
 **APIs:** [football-data.org](https://www.football-data.org/) — fixtures, teams, and match data for the 2026 World Cup; [ESPN Site API](https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world) — national team rosters and player headshots.
 
-**Contact Email:** richeek.thakur13@gmail.com
+**Contact Email:** richeek.thakur13@gmail.com [nicos]
 
 **Deployed App Link:** TBD
 
