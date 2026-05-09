@@ -1,27 +1,20 @@
 const express = require("express");
 const Prediction = require("../models/Prediction");
+const { getAllMatches } = require("./matchRouter");
 
 const router = express.Router();
-const API_BASE = "https://api.football-data.org/v4";
 
 function isLoggedIn(req, res, next) {
   if (req.session && req.session.user) return next();
   res.redirect("/auth/login");
 }
 
-async function apiFetch(endpoint) {
-  const res = await fetch(`${API_BASE}${endpoint}`, {
-    headers: { "X-Auth-Token": process.env.FOOTBALL_API_KEY },
-  });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  return res.json();
-}
-
 router.get("/new", isLoggedIn, async (req, res) => {
   try {
-    const data = await apiFetch("/competitions/WC/matches?status=SCHEDULED");
+    const allMatches = await getAllMatches();
+    const matches = allMatches.filter(m => m.status === "SCHEDULED");
     const preselect = { matchId: req.query.matchId || "", home: req.query.home || "", away: req.query.away || "" };
-    res.render("predictForm", { matches: data.matches || [], user: req.session.user, preselect });
+    res.render("predictForm", { matches, user: req.session.user, preselect });
   } catch (e) {
     console.error(e);
     res.render("error", { message: "Could not load matches for prediction.", user: req.session.user });
