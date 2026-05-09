@@ -6,7 +6,7 @@
 
 **App Description:** A Node.js/Express/MongoDB app to explore 2026 FIFA World Cup fixtures and teams, and make score predictions stored in MongoDB.
 
-**YouTube Video Link:** [https://youtu.be/Kw94AlrvgOk]https://youtu.be/Kw94AlrvgOk
+**YouTube Video Link:** [https://youtu.be/Kw94AlrvgOk](https://youtu.be/Kw94AlrvgOk)
 
 **APIs:** [ESPN Site API](https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world) — fixtures, teams, match data, rosters, and player headshots for the 2026 World Cup.
 
