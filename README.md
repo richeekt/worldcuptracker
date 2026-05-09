@@ -28,7 +28,6 @@
 2. Add your credentials to `credentialsDontPost/.env`:
    ```
    MONGO_CONNECTION_STRING=your_mongodb_atlas_connection_string
-   FOOTBALL_API_KEY=your_football_data_org_api_key
    SESSION_SECRET=any_long_random_string
    ```
 
