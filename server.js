@@ -6,7 +6,7 @@ const session = require("express-session");
 const mongoose = require("mongoose");
 
 const authRouter = require("./routes/authRouter");
-const matchRouter = require("./routes/matchRouter");
+const { router: matchRouter } = require("./routes/matchRouter");
 const teamRouter = require("./routes/teamRouter");
 const predictionRouter = require("./routes/predictionRouter");
 
@@ -41,11 +41,10 @@ app.get("/", async (req, res) => {
   try {
     const now = Date.now();
     if (!homeTeamsCache.crests.length || now - homeTeamsCache.fetchedAt > 300000) {
-      const r = await fetch("https://api.football-data.org/v4/competitions/WC/teams", {
-        headers: { "X-Auth-Token": process.env.FOOTBALL_API_KEY },
-      });
+      const r = await fetch("https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/teams");
       const data = await r.json();
-      homeTeamsCache.crests = (data.teams || []).filter(t => t.crest).map(t => ({ name: t.name, crest: t.crest }));
+      const teamList = data.sports[0].leagues[0].teams.map(t => t.team);
+      homeTeamsCache.crests = teamList.filter(t => t.logos?.[0]?.href).map(t => ({ name: t.displayName, crest: t.logos[0].href }));
       homeTeamsCache.fetchedAt = now;
     }
     res.render("index", { user: req.session.user || null, crests: homeTeamsCache.crests });

@@ -8,7 +8,7 @@
 
 **YouTube Video Link:** TBD
 
-**APIs:** [football-data.org](https://www.football-data.org/) — fixtures, teams, and match data for the 2026 World Cup; [ESPN Site API](https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world) — national team rosters and player headshots.
+**APIs:** [ESPN Site API](https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world) — fixtures, teams, match data, rosters, and player headshots for the 2026 World Cup.
 
 **Contact Email:** richeek.thakur13@gmail.com, nicomannarelli@gmail.com
 
